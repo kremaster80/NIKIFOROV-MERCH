@@ -56,7 +56,7 @@ function renderProducts(category='all'){
       <div class="product-meta">
         <div class="product-subtitle"><span>NIKIFOROV / BACKPACK</span><span>001</span></div>
         <div class="product-title-row"><a class="product-title" href="#catalog" data-open="${p.id}">Рюкзак<br>${p.name}</a><span class="product-swatch" style="background:${p.swatch}" aria-label="Цвет: ${p.color}"></span></div>
-        <div class="product-bottom"><span class="product-price">Цена у менеджера</span><button class="product-more" type="button" data-open="${p.id}">Подробнее <span>↗</span></button></div>
+        <div class="product-bottom"><span class="product-price">Цена у менеджера</span><button class="product-more" type="button" data-open="${p.id}">Подробнее</button></div>
       </div>
     </article>`).join('');
   $('#visibleCount').textContent=`ПОКАЗАНО ${String(shown.length).padStart(2,'0')} ВАРИАНТОВ`;
@@ -184,7 +184,7 @@ $('#copyRequest').addEventListener('click',async()=>{
   }
   showToast('Заявка скопирована');
   $('#copyRequest').innerHTML='Скопировано ✓';
-  setTimeout(()=>$('#copyRequest').innerHTML='Скопировать для менеджера <span>↗</span>',2400);
+  setTimeout(()=>$('#copyRequest').textContent='Скопировать для менеджера',2400);
 });
 if(typeof navigator.share==='function'){
   $('#shareRequest').hidden=false;
