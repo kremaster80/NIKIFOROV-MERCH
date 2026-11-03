@@ -22,13 +22,30 @@ python3 -m http.server 8080 --directory dist
 
 Затем открыть `http://localhost:8080`.
 
+## Публикация через GitHub Pages
+
+Публичный адрес: **https://kremaster80.github.io/NIKIFOROV-MERCH/**
+
+GitHub Pages публикует файлы из **корня ветки `main`**. В корне размещены копии `dist/index.html`, `dist/styles.css`, `dist/main.js` и `dist/assets/`; GitHub Pages не требует Node.js, сборки или сервера.
+
+Если в дальнейшем меняете сайт в папке `dist`, перед отправкой изменений запустите:
+
+```bash
+node scripts/sync-pages.mjs
+```
+
+Скрипт синхронизирует опубликованные файлы с `dist`. Затем сохраните и отправьте на GitHub изменения **как в `dist`, так и в корне**.
+
+Настройки репозитория в GitHub: **Settings → Pages → Build and deployment → Source: Deploy from a branch → Branch: `main` / `/(root)` → Save**. После публикации GitHub Pages обновляется при последующих пушах в `main`.
+
 ## Структура
 
 - `dist/index.html` — разметка страницы.
 - `dist/styles.css` — оформление и адаптивная вёрстка.
 - `dist/main.js` — каталог, карточки и логика заявки. Новые товары добавляются в массив `products`.
 - `dist/assets/` — фотографии для сайта.
-- `scripts/` — вспомогательные скрипты и индекс исходной фотогалереи.
+- `index.html`, `styles.css`, `main.js`, `assets/` — версия для GitHub Pages.
+- `scripts/` — вспомогательные скрипты, синхронизация Pages и индекс исходной фотогалереи.
 
 ## Источники фотографий
 
@@ -36,4 +53,4 @@ python3 -m http.server 8080 --directory dist
 
 ## Сайт
 
-[NIKIFOROV MERCH](https://nikiforov-merch-shop.timelyiguana.chatgpt.site) — развёрнутая версия (пока с ограниченным доступом).
+[NIKIFOROV MERCH на GitHub Pages](https://kremaster80.github.io/NIKIFOROV-MERCH/) — публичная версия сайта.
