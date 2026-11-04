@@ -63,7 +63,7 @@
   <aside class="drawer" id="cartDrawer" role="dialog" aria-modal="true" aria-labelledby="drawerTitle" aria-hidden="true">
     <div class="drawer-head">
       <h2 id="drawerTitle">Ваша заявка <span id="drawerCount">(0)</span></h2>
-      <button class="close-button" id="closeCart" type="button">Закрыть</button>
+      <button class="icon-close" id="closeCart" type="button" aria-label="Закрыть заявку"></button>
     </div>
     <div class="drawer-items" id="drawerItems"></div>
     <div class="drawer-bottom">
@@ -84,8 +84,11 @@
   </aside>
 
   <div class="product-modal" id="productModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" aria-hidden="true">
-    <button class="modal-close close-button" id="closeModal" type="button">Закрыть</button>
-    <img id="modalImage" src="" alt="">
+    <button class="modal-close icon-close" id="closeModal" type="button" aria-label="Закрыть карточку товара"></button>
+    <div class="modal-gallery">
+      <img id="modalImage" src="" alt="">
+      <div class="modal-thumbnails" id="modalThumbnails" role="group" aria-label="Фотографии товара"></div>
+    </div>
     <div class="modal-details">
       <span class="modal-label">NIKIFOROV TEAM</span>
       <h2 id="modalTitle"></h2>
