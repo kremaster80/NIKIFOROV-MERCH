@@ -45,22 +45,33 @@ function productById(id){return products.find(p=>p.id===id);}
 
 function renderProducts(category='all'){
   const shown = products.filter(p=>category==='all'||p.category===category);
-  grid.innerHTML = shown.map((p,index)=>`
+  grid.innerHTML = shown.map(p=>`
     <article class="product-card">
-      <div class="product-image-wrap" data-open="${p.id}" role="button" tabindex="0" aria-label="Посмотреть рюкзак: ${p.name}">
+      <div class="product-image-wrap" data-open="${p.id}" role="button" tabindex="0" aria-label="Посмотреть фото: ${p.name}">
         <img class="product-image" src="./assets/${p.image}" alt="Рюкзак NIKIFOROV, ${p.color.toLowerCase()}" loading="lazy" />
-        ${index===0?'<span class="product-badge">COLLECTION 001</span>':''}
-        <span class="product-index">${String(index+1).padStart(2,'0')} / ${String(shown.length).padStart(2,'0')}</span>
-        <button class="quick-add" type="button" data-add="${p.id}" aria-label="Добавить в заявку: ${p.name}">+</button>
       </div>
       <div class="product-meta">
-        <div class="product-subtitle"><span>NIKIFOROV / BACKPACK</span><span>001</span></div>
-        <div class="product-title-row"><a class="product-title" href="#catalog" data-open="${p.id}">Рюкзак<br>${p.name}</a><span class="product-swatch" style="background:${p.swatch}" aria-label="Цвет: ${p.color}"></span></div>
-        <div class="product-bottom"><span class="product-price">Цена у менеджера</span><button class="product-more" type="button" data-open="${p.id}">Подробнее</button></div>
+        <span class="product-name">${p.name}</span>
+        <button class="product-add" type="button" data-add="${p.id}">В заявку</button>
       </div>
     </article>`).join('');
-  $('#visibleCount').textContent=`ПОКАЗАНО ${String(shown.length).padStart(2,'0')} ВАРИАНТОВ`;
-  $('#totalCount').textContent=String(products.length).padStart(2,'0');
+}
+
+// Фильтры появляются только при добавлении других категорий.
+const categoryLabels = {backpack:'Рюкзаки',clothing:'Одежда',accessory:'Аксессуары'};
+const categories = [...new Set(products.map(p=>p.category))];
+const filters = $('#categoryFilters');
+if(categories.length>1){
+  filters.hidden=false;
+  filters.innerHTML = ['all',...categories].map((category,i)=>
+    `<button type="button" data-category="${category}" class="${i===0?'is-active':''}">${category==='all'?'Все товары':categoryLabels[category]||category}</button>`
+  ).join('');
+  filters.addEventListener('click',(event)=>{
+    const button=event.target.closest('[data-category]');
+    if(!button)return;
+    filters.querySelectorAll('button').forEach(b=>b.classList.toggle('is-active',b===button));
+    renderProducts(button.dataset.category);
+  });
 }
 
 function addToCart(id){
@@ -85,13 +96,13 @@ function renderCart(){
   $('#clearCart').hidden = count===0;
   const items=products.filter(p=>cart[p.id]);
   if(!items.length){
-    drawerItems.innerHTML='<div class="empty-cart"><div class="empty-cart-icon">00</div><h3>ПОКА ПУСТО</h3><p>Выберите понравившийся цвет рюкзака в каталоге.</p></div>';
+    drawerItems.innerHTML='<div class="empty-cart"><h3>Пока пусто</h3><p>Выберите рюкзак в каталоге.</p></div>';
     return;
   }
   drawerItems.innerHTML=items.map(p=>`
     <div class="cart-line"><img src="./assets/${p.image}" alt="Рюкзак ${p.name}" />
-      <div><div class="cart-line-title">Рюкзак NIKIFOROV</div><div class="cart-line-color">${p.color}</div><div class="qty-controls"><button type="button" data-qty="${p.id}" data-delta="-1" aria-label="Уменьшить количество">−</button><span>${cart[p.id]}</span><button type="button" data-qty="${p.id}" data-delta="1" aria-label="Увеличить количество">+</button></div></div>
-      <button class="remove-line" type="button" data-remove="${p.id}" aria-label="Удалить ${p.name}">×</button></div>`).join('');
+      <div><div class="cart-line-title">Рюкзак NIKIFOROV</div><div class="cart-line-color">${p.color}</div><div class="qty-controls"><button type="button" data-qty="${p.id}" data-delta="-1" aria-label="Уменьшить количество">-</button><span>${cart[p.id]}</span><button type="button" data-qty="${p.id}" data-delta="1" aria-label="Увеличить количество">+</button></div></div>
+      <button class="remove-line" type="button" data-remove="${p.id}" aria-label="Удалить ${p.name}">Удалить</button></div>`).join('');
 }
 
 function openLayer(name){
@@ -118,7 +129,7 @@ function closeLayer(){
 function openProduct(id){
   const p=productById(id);if(!p)return;
   currentProduct=p;
-  $('#modalTitle').textContent=`РЮКЗАК ${p.name.toUpperCase()}`;
+  $('#modalTitle').textContent=`Рюкзак ${p.name}`;
   $('#modalColor').textContent=p.color;
   $('#modalImage').src=`./assets/${p.image}`;
   $('#modalImage').alt=`Рюкзак NIKIFOROV, ${p.color.toLowerCase()}`;
@@ -136,14 +147,7 @@ grid.addEventListener('keydown',(e)=>{
     e.preventDefault();openProduct(e.target.dataset.open);
   }
 });
-document.querySelectorAll('.tab').forEach(tab=>tab.addEventListener('click',()=>{
-  document.querySelectorAll('.tab').forEach(t=>{t.classList.remove('is-active');t.setAttribute('aria-pressed','false');});
-  tab.classList.add('is-active');tab.setAttribute('aria-pressed','true');
-  renderProducts(tab.dataset.category);
-}));
-
 $('#openCart').addEventListener('click',()=>openLayer('cart'));
-$('#orderOpen').addEventListener('click',()=>openLayer('cart'));
 $('#closeCart').addEventListener('click',closeLayer);
 $('#closeModal').addEventListener('click',closeLayer);
 overlay.addEventListener('click',closeLayer);
@@ -183,8 +187,8 @@ $('#copyRequest').addEventListener('click',async()=>{
     field.hidden=true;
   }
   showToast('Заявка скопирована');
-  $('#copyRequest').innerHTML='Скопировано ✓';
-  setTimeout(()=>$('#copyRequest').textContent='Скопировать для менеджера',2400);
+  $('#copyRequest').textContent='Заявка скопирована';
+  setTimeout(()=>$('#copyRequest').textContent='Скопировать заявку',2400);
 });
 if(typeof navigator.share==='function'){
   $('#shareRequest').hidden=false;
@@ -206,7 +210,4 @@ document.addEventListener('keydown',(e)=>{
     else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus();}
   }
 });
-const menuToggle=$('#menuToggle'),mobileNav=$('#mobileNav');
-menuToggle.addEventListener('click',()=>{const open=mobileNav.hidden;mobileNav.hidden=!open;menuToggle.setAttribute('aria-expanded',String(open));});
-mobileNav.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{mobileNav.hidden=true;menuToggle.setAttribute('aria-expanded','false');}));
 renderProducts();renderCart();
