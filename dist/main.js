@@ -1,15 +1,15 @@
 // Каталог: новые товары и категории добавляются в этот массив.
 // Стоимость, наличие и спецификации не публикуем до подтверждения руководителем.
 const products = [
-  {id:'blue-camo',name:'Синий камуфляж',color:'Сине-голубой камуфляж',image:'blue-camo.webp',gallery:['hero.webp','campaign.webp'],category:'backpack'},
-  {id:'pink',name:'Розовый',color:'Розовый',image:'pink.webp',gallery:['lifestyle.webp','campaign.webp'],category:'backpack'},
-  {id:'black-red',name:'Красно-чёрный',color:'Красно-чёрный',image:'black-red.webp',gallery:['campaign.webp'],category:'backpack'},
-  {id:'grey',name:'Серый камуфляж',color:'Серый камуфляж',image:'grey.webp',gallery:['campaign.webp'],category:'backpack'},
-  {id:'red',name:'Красный',color:'Красный',image:'red.webp',gallery:['campaign.webp'],category:'backpack'},
-  {id:'purple',name:'Фиолетовый',color:'Фиолетовый',image:'purple.webp',gallery:['campaign.webp'],category:'backpack'},
-  {id:'navy',name:'Тёмно-синий',color:'Тёмно-синий',image:'navy.webp',gallery:['campaign.webp'],category:'backpack'},
-  {id:'turquoise',name:'Бирюзовый',color:'Бирюзовый',image:'turquoise.webp',gallery:['lifestyle.webp','campaign.webp'],category:'backpack'},
-  {id:'yellow',name:'Жёлтый',color:'Жёлтый',image:'yellow.webp',gallery:['detail.webp','lifestyle.webp'],category:'backpack'}
+  {id:'blue-camo',name:'Синий камуфляж',color:'Сине-голубой камуфляж',image:'blue-camo.webp',gallery:['blue-camo-2.webp','blue-camo-3.webp'],category:'backpack'},
+  {id:'pink',name:'Розовый',color:'Розовый',image:'pink.webp',gallery:['pink-2.webp','pink-3.webp'],category:'backpack'},
+  {id:'black-red',name:'Красно-чёрный',color:'Красно-чёрный',image:'black-red.webp',gallery:['black-red-2.webp','black-red-3.webp'],category:'backpack'},
+  {id:'grey',name:'Серый камуфляж',color:'Серый камуфляж',image:'grey.webp',gallery:['grey-2.webp','grey-3.webp'],category:'backpack'},
+  {id:'red',name:'Красный',color:'Красный',image:'red.webp',gallery:['red-2.webp','red-3.webp'],category:'backpack'},
+  {id:'purple',name:'Фиолетовый',color:'Фиолетовый',image:'purple.webp',gallery:['purple-2.webp','purple-3.webp'],category:'backpack'},
+  {id:'navy',name:'Тёмно-синий',color:'Тёмно-синий',image:'navy.webp',gallery:['navy-2.webp','navy-3.webp'],category:'backpack'},
+  {id:'turquoise',name:'Бирюзовый',color:'Бирюзовый',image:'turquoise.webp',gallery:['turquoise-2.webp','turquoise-3.webp'],category:'backpack'},
+  {id:'yellow',name:'Жёлтый',color:'Жёлтый',image:'yellow.webp',gallery:['yellow-2.webp','yellow-3.webp'],category:'backpack'}
 ];
 
 const $ = (s)=>document.querySelector(s);
