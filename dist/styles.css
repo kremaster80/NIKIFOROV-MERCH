@@ -64,7 +64,9 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 .product-image-frame { position: relative; width: 100%; aspect-ratio: 3 / 4; background: #302a26; overflow: hidden; }
 .product-image-wrap { display: block; width: 100%; height: 100%; padding: 0; border: 0; background: transparent; cursor: zoom-in; }
 .product-image { display: block; width: 100%; height: 100%; object-fit: cover; object-position: center 44%; transition: transform .45s ease; }
+.product-image-frame[data-product="pink"] .product-image[src*="pink.webp"] { object-fit: contain; }
 .product-image-wrap:hover .product-image { transform: scale(1.025); }
+.product-image-frame[data-product="pink"] .product-image-wrap:hover .product-image[src*="pink.webp"] { transform: none; }
 .photo-dots { position: absolute; z-index: 2; bottom: 9px; left: 50%; transform: translateX(-50%); display: flex; padding: 0 4px; border-radius: 28px; background: rgba(18,18,18,.48); }
 .photo-dot { width: 44px; height: 44px; display: grid; place-items: center; padding: 0; border: 0; background: transparent; touch-action: manipulation; }
 .photo-dot::before { content: ''; width: 7px; height: 7px; border: 1px solid #fff; border-radius: 50%; background: transparent; }
@@ -132,6 +134,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 .product-modal.is-open { opacity: 1; visibility: visible; pointer-events: auto; transform: translate(-50%, -50%); }
 .modal-gallery { min-width: 0; display: flex; flex-direction: column; }
 .modal-gallery > img { display: block; width: 100%; height: 438px; object-fit: cover; object-position: center 43%; touch-action: pan-y; }
+#modalImage[src*="pink.webp"] { object-fit: contain; background: #211d1a; }
 .modal-thumbnails { display: flex; justify-content: center; gap: 8px; padding: 10px; overflow-x: auto; }
 .modal-thumb { width: 68px; height: 74px; padding: 0; border: 2px solid transparent; background: #302a26; flex: none; touch-action: manipulation; }
 .modal-thumb[aria-pressed='true'] { border-color: var(--accent); }

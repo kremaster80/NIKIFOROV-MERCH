@@ -2,7 +2,7 @@
 // Стоимость, наличие и спецификации не публикуем до подтверждения руководителем.
 const products = [
   {id:'blue-camo',name:'Синий камуфляж',color:'Сине-голубой камуфляж',image:'blue-camo.webp',gallery:['blue-camo-2.webp','blue-camo-3.webp'],category:'backpack'},
-  {id:'pink',name:'Розовый',color:'Розовый',image:'pink.webp?v=81',gallery:['pink-2.webp','pink-3.webp'],category:'backpack'},
+  {id:'pink',name:'Розовый',color:'Розовый',image:'pink.webp?v=85-full',gallery:['pink-2.webp','pink-3.webp'],category:'backpack'},
   {id:'black-red',name:'Красно-чёрный',color:'Красно-чёрный',image:'black-red.webp',gallery:['black-red-2.webp','black-red-3.webp'],category:'backpack'},
   {id:'grey',name:'Серый камуфляж',color:'Серый камуфляж',image:'grey.webp',gallery:['grey-2.webp','grey-3.webp'],category:'backpack'},
   {id:'red',name:'Красный',color:'Красный',image:'red.webp',gallery:['red-2.webp','red-3.webp'],category:'backpack'},
