@@ -35,8 +35,10 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 /* Первый экран: коллекция сразу видна за коротким ясным заголовком. */
 .hero { position: relative; isolation: isolate; display: flex; align-items: flex-end; height: clamp(385px, 55vh, 565px); overflow: hidden; background: #211d1a; }
 .hero-copy { position: relative; z-index: 1; min-width: 0; padding: 55px clamp(22px, 5vw, 85px) 62px; display: flex; align-items: flex-start; flex-direction: column; justify-content: flex-end; }
-.hero-label { color: #f1e6dc; font-size: 11px; font-weight: 700; letter-spacing: .17em; text-shadow: 0 1px 9px #1d1918; }
-.hero h1 { font-size: clamp(58px, 8.5vw, 124px); line-height: .97; letter-spacing: -.07em; margin: 16px 0 27px; font-weight: 800; text-shadow: 0 2px 20px rgba(0,0,0,.22); }
+.hero h1 { font-size: clamp(56px, 7vw, 105px); line-height: .94; letter-spacing: -.068em; margin: 0 0 18px; font-weight: 800; text-shadow: 0 2px 20px rgba(0,0,0,.22); }
+.hero h1 span { display: block; }
+.hero h1 span:last-child { font-size: .68em; font-weight: 500; letter-spacing: .012em; margin-top: .09em; }
+.hero-slogan { margin: 0 0 30px; font-size: clamp(13px, 1.2vw, 16px); font-weight: 600; letter-spacing: .015em; color: #f1e6dc; text-shadow: 0 1px 9px #1d1918; }
 .hero-link { display: inline-flex; align-items: center; justify-content: center; min-height: 46px; padding: 13px 22px; border: 1px solid var(--accent); background: var(--accent); color: #211d1a; font-size: 13px; font-weight: 700; transition: background .2s, border-color .2s; }
 .hero-link:hover { background: #f2e9e0; border-color: #f2e9e0; }
 .hero-image { position: absolute; inset: 0; z-index: -1; overflow: hidden; }
@@ -68,7 +70,9 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 .photo-dot::before { content: ''; width: 7px; height: 7px; border: 1px solid #fff; border-radius: 50%; background: transparent; }
 .photo-dot[aria-pressed='true']::before { background: #fff; }
 .product-meta { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-top: 16px; }
+.product-labels { display: flex; flex-direction: column; gap: 4px; }
 .product-name { font-size: 14px; font-weight: 700; line-height: 1.4; }
+.product-range { color: var(--muted); font-size: 12px; line-height: 1.4; }
 .product-add { flex: none; border: 1px solid #998675; padding: 10px 15px; background: transparent; color: var(--ink); font-size: 11px; font-weight: 700; transition: color .2s, background .2s; }
 .product-add:hover { color: var(--paper); background: var(--accent); }
 .catalog-note { color: var(--muted); margin: 52px 0 0; font-size: 12px; }
@@ -138,13 +142,16 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 .modal-details h2 { margin: 22px 0 12px; font-size: 35px; letter-spacing: -.05em; line-height: 1.12; }
 .modal-details p { margin: 0; font-size: 13px; color: var(--muted); }
 .modal-details .modal-note { margin: 30px 0 22px; }
+.certificate-picker { width: 100%; margin-top: 25px; }
+.certificate-picker label { display: block; color: var(--ink); font-size: 12px; font-weight: 600; margin-bottom: 9px; }
+.certificate-picker select { width: 100%; min-height: 48px; padding: 11px 14px; background: #211d1a; color: var(--ink); border: 1px solid #66594e; border-radius: 0; font-size: 14px; }
 .toast { position: fixed; z-index: 70; bottom: 25px; left: 50%; transform: translate(-50%, 12px); opacity: 0; pointer-events: none; transition: opacity .2s, transform .2s; background: var(--accent); color: #211d1a; padding: 13px 20px; font-size: 12px; white-space: nowrap; }
 .toast.show { opacity: 1; transform: translate(-50%, 0); }
 
 @media (max-width: 900px) {
   .hero { height: clamp(380px, 57vh, 520px); }
   .hero-copy { padding: 43px 35px; }
-  .hero h1 { font-size: clamp(57px, 9.1vw, 88px); }
+  .hero h1 { font-size: clamp(50px, 8vw, 79px); }
   .catalog { padding-top: 65px; }
   .product-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 34px 18px; }
 }
@@ -156,8 +163,8 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
   .cart-count { min-width: 20px; height: 20px; font-size: 10px; }
   .hero { height: min(67svh, 530px); min-height: 390px; }
   .hero-copy { padding: 33px 23px 37px; }
-  .hero-label { font-size: 9px; }
-  .hero h1 { font-size: clamp(54px, 14vw, 74px); margin: 13px 0 23px; }
+  .hero h1 { font-size: clamp(38px, 10vw, 58px); margin: 0 0 15px; }
+  .hero-slogan { font-size: 12px; margin-bottom: 23px; }
   .hero-link { font-size: 12px; min-height: 44px; padding: 12px 18px; }
   .hero-image::after { background: linear-gradient(0deg, rgba(13,12,11,.9) 0%, rgba(13,12,11,.3) 56%, rgba(13,12,11,.06) 100%); }
   .hero-image img { object-position: center 56%; }

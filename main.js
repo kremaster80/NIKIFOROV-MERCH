@@ -9,8 +9,11 @@ const products = [
   {id:'purple',name:'Фиолетовый',color:'Фиолетовый',image:'purple.webp',gallery:['purple-2.webp','purple-3.webp'],category:'backpack'},
   {id:'navy',name:'Тёмно-синий',color:'Тёмно-синий',image:'navy.webp',gallery:['navy-2.webp','navy-3.webp'],category:'backpack'},
   {id:'turquoise',name:'Бирюзовый',color:'Бирюзовый',image:'turquoise.webp',gallery:['turquoise-2.webp','turquoise-3.webp'],category:'backpack'},
-  {id:'yellow',name:'Жёлтый',color:'Жёлтый',image:'yellow.webp',gallery:['yellow-2.webp','yellow-3.webp'],category:'backpack'}
+  {id:'yellow',name:'Жёлтый',color:'Жёлтый',image:'yellow.webp',gallery:['yellow-2.webp','yellow-3.webp'],category:'backpack'},
+  {id:'certificate',name:'Подарочный сертификат',color:'От 1 000 до 10 000 ₽',image:'certificate.svg',gallery:[],category:'certificate'}
 ];
+const certificateAmounts = Array.from({length:10},(_,i)=>(i+1)*1000);
+const rubles = (amount)=>`${Number(amount).toLocaleString('ru-RU')} ₽`;
 
 const $ = (s)=>document.querySelector(s);
 const grid = $('#productGrid');
@@ -28,7 +31,7 @@ let activeLayer = null;
 let previousFocus = null;
 let cart = {};
 try { cart = JSON.parse(localStorage.getItem('nikiforov-merch-cart')||'{}') || {}; } catch { cart = {}; }
-const validIds = new Set(products.map(p=>p.id));
+const validIds = new Set([...products.filter(p=>p.id!=='certificate').map(p=>p.id),...certificateAmounts.map(a=>`certificate:${a}`)]);
 cart = Object.fromEntries(Object.entries(cart).filter(([id,qty])=>validIds.has(id)&&Number.isSafeInteger(qty)&&qty>0));
 
 function showToast(message){
@@ -44,6 +47,12 @@ function saveCart(){
 function countItems(){return Object.values(cart).reduce((sum,qty)=>sum+qty,0);}
 function productById(id){return products.find(p=>p.id===id);}
 function photosFor(product){return [product.image,...(product.gallery||[])];}
+function cartEntries(){
+  return products.flatMap(product=>{
+    if(product.id==='certificate')return certificateAmounts.filter(a=>cart[`certificate:${a}`]).map(a=>({product,key:`certificate:${a}`,qty:cart[`certificate:${a}`],amount:a}));
+    return cart[product.id]?[{product,key:product.id,qty:cart[product.id]}]:[];
+  });
+}
 
 function renderProducts(category='all'){
   const shown = products.filter(p=>category==='all'||p.category===category);
@@ -51,22 +60,22 @@ function renderProducts(category='all'){
     <article class="product-card">
       <div class="product-image-frame" data-product="${p.id}">
         <button class="product-image-wrap" type="button" data-open="${p.id}" aria-label="Открыть фото: ${p.name}">
-          <img class="product-image" data-card-image="${p.id}" src="./assets/${p.image}" alt="Рюкзак NIKIFOROV, ${p.color.toLowerCase()}" loading="lazy" />
+          <img class="product-image" data-card-image="${p.id}" src="./assets/${p.image}" alt="${p.id==='certificate'?'Подарочный сертификат NIKIFOROV TEAM':`Рюкзак NIKIFOROV, ${p.color.toLowerCase()}`}" loading="lazy" />
         </button>
-        <div class="photo-dots" role="group" aria-label="Фотографии: ${p.name}">
+        ${photosFor(p).length>1?`<div class="photo-dots" role="group" aria-label="Фотографии: ${p.name}">
           ${photosFor(p).map((_,index)=>`<button class="photo-dot" type="button" data-photo="${p.id}" data-index="${index}" aria-label="Фото ${index+1} из ${photosFor(p).length}" aria-pressed="${index===0}"></button>`).join('')}
-        </div>
+        </div>`:''}
       </div>
       <div class="product-meta">
-        <span class="product-name">${p.name}</span>
-        <button class="product-add" type="button" data-add="${p.id}">В заявку</button>
+        <div class="product-labels"><span class="product-name">${p.name}</span>${p.id==='certificate'?'<span class="product-range">1 000–10 000 ₽</span>':''}</div>
+        <button class="product-add" type="button" data-add="${p.id}">${p.id==='certificate'?'Выбрать номинал':'В заявку'}</button>
       </div>
     </article>`).join('');
 }
 
 // Фильтры появляются только при добавлении других категорий.
 const categoryLabels = {backpack:'Рюкзаки',clothing:'Одежда',accessory:'Аксессуары'};
-const categories = [...new Set(products.map(p=>p.category))];
+const categories = [...new Set(products.map(p=>p.category).filter(category=>category!=='certificate'))];
 const filters = $('#categoryFilters');
 if(categories.length>1){
   filters.hidden=false;
@@ -81,9 +90,10 @@ if(categories.length>1){
   });
 }
 
-function addToCart(id){
-  if(!validIds.has(id))return;
-  cart[id] = (cart[id]||0)+1;
+function addToCart(id,amount=null){
+  const key=id==='certificate'?`certificate:${Number(amount)}`:id;
+  if(!validIds.has(key))return;
+  cart[key] = (cart[key]||0)+1;
   saveCart();
   showToast('Добавлено в вашу заявку');
 }
@@ -101,15 +111,15 @@ function renderCart(){
   $('#copyRequest').disabled = count===0;
   $('#shareRequest').disabled = count===0;
   $('#clearCart').hidden = count===0;
-  const items=products.filter(p=>cart[p.id]);
+  const items=cartEntries();
   if(!items.length){
-    drawerItems.innerHTML='<div class="empty-cart"><h3>Пока пусто</h3><p>Выберите рюкзак в каталоге.</p></div>';
+    drawerItems.innerHTML='<div class="empty-cart"><h3>Пока пусто</h3><p>Выберите рюкзак или сертификат в каталоге.</p></div>';
     return;
   }
-  drawerItems.innerHTML=items.map(p=>`
-    <div class="cart-line"><img src="./assets/${p.image}" alt="Рюкзак ${p.name}" />
-      <div><div class="cart-line-title">Рюкзак NIKIFOROV</div><div class="cart-line-color">${p.color}</div><div class="qty-controls"><button type="button" data-qty="${p.id}" data-delta="-1" aria-label="Уменьшить количество">-</button><span>${cart[p.id]}</span><button type="button" data-qty="${p.id}" data-delta="1" aria-label="Увеличить количество">+</button></div></div>
-      <button class="remove-line" type="button" data-remove="${p.id}" aria-label="Удалить ${p.name}">Удалить</button></div>`).join('');
+  drawerItems.innerHTML=items.map(({product:p,key,qty,amount})=>`
+    <div class="cart-line"><img src="./assets/${p.image}" alt="${p.name}" />
+      <div><div class="cart-line-title">${p.id==='certificate'?'Подарочный сертификат':'Рюкзак NIKIFOROV'}</div><div class="cart-line-color">${p.id==='certificate'?`Номинал ${rubles(amount)}`:p.color}</div><div class="qty-controls"><button type="button" data-qty="${key}" data-delta="-1" aria-label="Уменьшить количество">-</button><span>${qty}</span><button type="button" data-qty="${key}" data-delta="1" aria-label="Увеличить количество">+</button></div></div>
+      <button class="remove-line" type="button" data-remove="${key}" aria-label="Удалить ${p.name}">Удалить</button></div>`).join('');
 }
 
 function openLayer(name){
@@ -154,8 +164,9 @@ function setModalPhoto(index){
   modalPhotoIndex=(index+photos.length)%photos.length;
   const img=$('#modalImage');
   img.src=`./assets/${photos[modalPhotoIndex]}`;
-  img.alt=`Рюкзак NIKIFOROV ${currentProduct.name}, фото ${modalPhotoIndex+1} из ${photos.length}`;
+  img.alt=`${currentProduct.id==='certificate'?'Подарочный сертификат NIKIFOROV TEAM':`Рюкзак NIKIFOROV ${currentProduct.name}`}, фото ${modalPhotoIndex+1} из ${photos.length}`;
   const thumbs=$('#modalThumbnails');
+  thumbs.hidden=currentProduct.id==='certificate';
   if(thumbs.dataset.product!==currentProduct.id){
     thumbs.innerHTML=photos.map((photo,i)=>`
       <button class="modal-thumb" type="button" data-modal-photo="${i}" aria-label="Показать фото ${i+1} из ${photos.length}">
@@ -171,8 +182,11 @@ function setModalPhoto(index){
 function openProduct(id,index=0){
   const p=productById(id);if(!p)return;
   currentProduct=p;
-  $('#modalTitle').textContent=`Рюкзак ${p.name}`;
-  $('#modalColor').textContent=p.color;
+  const certificate=p.id==='certificate';
+  $('#modalTitle').textContent=certificate?p.name:`Рюкзак ${p.name}`;
+  $('#modalColor').textContent=certificate?'Выберите сумму сертификата':p.color;
+  $('#certificatePicker').hidden=!certificate;
+  $('.modal-note').textContent=certificate?'Условия получения и использования уточняйте у менеджера.':'Стоимость уточняет менеджер.';
   setModalPhoto(index);
   openLayer('modal');
 }
@@ -183,7 +197,7 @@ grid.addEventListener('click',(e)=>{
   const dot=e.target.closest('[data-photo]');
   if(dot){e.preventDefault();setCardPhoto(dot.dataset.photo,Number(dot.dataset.index));return;}
   const add=e.target.closest('[data-add]');
-  if(add){e.stopPropagation();addToCart(add.dataset.add);return;}
+  if(add){e.stopPropagation();if(add.dataset.add==='certificate')openProduct('certificate');else addToCart(add.dataset.add);return;}
   const open=e.target.closest('[data-open]');
   if(open){
     const index=Number(open.closest('.product-image-frame')?.dataset.activeIndex||0);
@@ -227,7 +241,7 @@ $('#openCart').addEventListener('click',()=>openLayer('cart'));
 $('#closeCart').addEventListener('click',closeLayer);
 $('#closeModal').addEventListener('click',closeLayer);
 overlay.addEventListener('click',closeLayer);
-$('#modalAdd').addEventListener('click',()=>{if(currentProduct){addToCart(currentProduct.id);closeLayer();openLayer('cart');}});
+$('#modalAdd').addEventListener('click',()=>{if(currentProduct){addToCart(currentProduct.id,currentProduct.id==='certificate'?$('#certificateAmount').value:null);closeLayer();openLayer('cart');}});
 drawerItems.addEventListener('click',(e)=>{
   const qty=e.target.closest('[data-qty]');
   const remove=e.target.closest('[data-remove]');
@@ -245,7 +259,7 @@ function makeRequestText(){
     $('#requestContact').focus();
     return null;
   }
-  const lines=products.filter(p=>cart[p.id]).map((p,i)=>`${i+1}. Рюкзак NIKIFOROV — ${p.color}, ${cart[p.id]} шт.`);
+  const lines=cartEntries().map(({product:p,qty,amount},i)=>p.id==='certificate'?`${i+1}. Подарочный сертификат NIKIFOROV TEAM — ${rubles(amount)}, ${qty} шт.`:`${i+1}. Рюкзак NIKIFOROV — ${p.color}, ${qty} шт.`);
   return `Заявка на мерч NIKIFOROV\n\n${lines.join('\n')}\n\n${name?`Имя: ${name}\n`:''}Контакт: ${contact}${comment?`\nКомментарий: ${comment}`:''}\n\nПрошу уточнить стоимость, наличие, доставку и порядок оплаты через менеджера.`;
 }
 $('#copyRequest').addEventListener('click',async()=>{

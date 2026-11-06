@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 1200" role="img" aria-labelledby="title desc">
+  <title id="title">Подарочный сертификат NIKIFOROV TEAM</title>
+  <desc id="desc">Сертификат на рюкзаки номиналом от 1000 до 10000 рублей</desc>
+  <defs>
+    <linearGradient id="background" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#302a26"/>
+      <stop offset="1" stop-color="#181614"/>
+    </linearGradient>
+    <linearGradient id="card" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#1b1917"/>
+      <stop offset="1" stop-color="#29231f"/>
+    </linearGradient>
+  </defs>
+  <rect width="900" height="1200" fill="url(#background)"/>
+  <rect x="76" y="208" width="748" height="698" rx="4" fill="url(#card)" stroke="#736558" stroke-width="2"/>
+  <rect x="98" y="230" width="704" height="654" fill="none" stroke="#736558" opacity=".35"/>
+  <path d="M126 300 H310 M590 300 H774" stroke="#e6d3c0" stroke-width="2" opacity=".7"/>
+  <circle cx="450" cy="300" r="8" fill="none" stroke="#e6d3c0" stroke-width="2"/>
+  <text x="450" y="378" text-anchor="middle" fill="#e6d3c0" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="35" letter-spacing="2">NIKIFOROV TEAM</text>
+  <text x="450" y="497" text-anchor="middle" fill="#f2e9e0" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="42" letter-spacing="3">ПОДАРОЧНЫЙ</text>
+  <text x="450" y="566" text-anchor="middle" fill="#f2e9e0" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="54" letter-spacing="2">СЕРТИФИКАТ</text>
+  <text x="450" y="643" text-anchor="middle" fill="#ac9d90" font-family="Arial, Helvetica, sans-serif" font-size="25" letter-spacing="4">НА РЮКЗАКИ</text>
+  <path d="M245 683 H655" stroke="#736558" stroke-width="2"/>
+  <text x="450" y="767" text-anchor="middle" fill="#e6d3c0" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="38">1 000 — 10 000 ₽</text>
+  <text x="450" y="1020" text-anchor="middle" fill="#c8b6a5" font-family="Arial, Helvetica, sans-serif" font-size="22" letter-spacing="2">СИСТЕМА · ДИСЦИПЛИНА · КАЧЕСТВО</text>
+</svg>

@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#211d1a">
-  <meta name="description" content="Рюкзаки NIKIFOROV TEAM. Выберите цвет и оформите заявку через менеджера.">
+  <meta name="description" content="Рюкзаки и подарочные сертификаты NIKIFOROV TEAM. Выберите цвет или номинал и оформите заявку.">
   <title>NIKIFOROV TEAM — мерч</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -26,8 +26,8 @@
         <img src="./assets/campaign.webp" alt="Коллекция рюкзаков NIKIFOROV TEAM в разных цветах" fetchpriority="high">
       </div>
       <div class="hero-copy">
-        <span class="hero-label">КОЛЛЕКЦИЯ · 9 ЦВЕТОВ</span>
-        <h1 id="heroTitle">РЮКЗАКИ</h1>
+        <h1 id="heroTitle"><span>NIKIFOROV</span><span>TEAM</span></h1>
+        <p class="hero-slogan">Система. Дисциплина. Качество.</p>
         <a class="hero-link" href="#catalog">Смотреть каталог</a>
       </div>
     </section>
@@ -43,7 +43,7 @@
       <div class="catalog-heading">
         <div>
           <h2 id="catalogTitle">Каталог</h2>
-          <p>Рюкзаки / 9 цветов</p>
+          <p>9 цветов рюкзаков · подарочный сертификат</p>
         </div>
       </div>
       <div class="category-filters" id="categoryFilters" hidden></div>
@@ -55,7 +55,6 @@
   <footer class="site-footer">
     <span>NIKIFOROV TEAM</span>
     <span>2026</span>
-    <span>Фото: Сергей Пелипенко</span>
   </footer>
 
   <div class="overlay" id="overlay" hidden></div>
@@ -93,6 +92,21 @@
       <span class="modal-label">NIKIFOROV TEAM</span>
       <h2 id="modalTitle"></h2>
       <p id="modalColor"></p>
+      <div class="certificate-picker" id="certificatePicker" hidden>
+        <label for="certificateAmount">Номинал сертификата</label>
+        <select id="certificateAmount" aria-label="Выберите номинал сертификата">
+          <option value="1000">1 000 ₽</option>
+          <option value="2000">2 000 ₽</option>
+          <option value="3000">3 000 ₽</option>
+          <option value="4000">4 000 ₽</option>
+          <option value="5000" selected>5 000 ₽</option>
+          <option value="6000">6 000 ₽</option>
+          <option value="7000">7 000 ₽</option>
+          <option value="8000">8 000 ₽</option>
+          <option value="9000">9 000 ₽</option>
+          <option value="10000">10 000 ₽</option>
+        </select>
+      </div>
       <p class="modal-note">Стоимость уточняет менеджер.</p>
       <button class="primary-button" id="modalAdd" type="button">Добавить в заявку</button>
     </div>
